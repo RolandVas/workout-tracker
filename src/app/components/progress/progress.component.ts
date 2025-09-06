@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartData, ChartOptions } from 'chart.js';
 import { WorkoutService } from '../../services/workout.service';
 import { ProgressData } from '../../models/interface';
 
 @Component({
   selector: 'app-progress',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgChartsModule],
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
@@ -16,6 +18,12 @@ export class ProgressComponent implements OnInit {
   selectedExercise = '';
   progressData: ProgressData | null = null;
   activeChart = 'weight';
+
+  lineChartData: ChartData<'line'> = { labels: [], datasets: [] };
+  lineChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: { legend: { display: false } }
+  };
 
   constructor(private workoutService: WorkoutService) {}
 
@@ -42,11 +50,17 @@ export class ProgressComponent implements OnInit {
     this.loadProgressData();
   }
 
+  setActiveChart(type: 'weight' | 'reps'): void {
+    this.activeChart = type;
+    this.updateChart();
+  }
+
   loadProgressData(): void {
     if (!this.selectedExercise) return;
 
     this.workoutService.getProgressData(this.selectedExercise).subscribe(data => {
       this.progressData = data;
+      this.updateChart();
     });
   }
 
@@ -73,87 +87,39 @@ export class ProgressComponent implements OnInit {
     return this.progressData?.data.length || 0;
   }
 
-  getYAxisTicks(): number[] {
-    if (!this.progressData?.data.length) return [];
-    const values = this.progressData.data.map(d => 
+  private updateChart(): void {
+    if (!this.progressData) return;
+    const labels = this.progressData.data.map(d => this.formatShortDate(d.date));
+    const data = this.progressData.data.map(d =>
       this.activeChart === 'weight' ? d.weight : d.reps
     );
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const range = max - min;
-    const step = Math.ceil(range / 5);
-    
-    const ticks = [];
-    for (let i = 0; i <= 5; i++) {
-      ticks.push(Math.round(max - (i * step)));
-    }
-    return ticks;
-  }
-
-  getChartPoints(): string {
-    if (!this.progressData?.data.length) return '';
-    
-    const values = this.progressData.data.map(d => 
-      this.activeChart === 'weight' ? d.weight : d.reps
-    );
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const range = max - min || 1;
-    
-    const points = this.progressData.data.map((d, i) => {
-      const x = (i / (this.progressData!.data.length - 1 || 1)) * 380 + 10;
-      const value = this.activeChart === 'weight' ? d.weight : d.reps;
-      const y = 190 - ((value - min) / range) * 180;
-      return `${x},${y}`;
-    });
-    
-    return points.join(' ');
-  }
-
-  getDataPoints(): { x: number, y: number }[] {
-    if (!this.progressData?.data.length) return [];
-    
-    const values = this.progressData.data.map(d => 
-      this.activeChart === 'weight' ? d.weight : d.reps
-    );
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const range = max - min || 1;
-    
-    return this.progressData.data.map((d, i) => {
-      const x = (i / (this.progressData!.data.length - 1 || 1)) * 380 + 10;
-      const value = this.activeChart === 'weight' ? d.weight : d.reps;
-      const y = 190 - ((value - min) / range) * 180;
-      return { x, y };
-    });
-  }
-
-  getXAxisDates(): Date[] {
-    if (!this.progressData?.data.length) return [];
-    const data = this.progressData.data;
-    if (data.length <= 4) return data.map(d => d.date);
-    
-    // Show max 4 dates evenly distributed
-    const indices = [0, Math.floor(data.length / 3), Math.floor(2 * data.length / 3), data.length - 1];
-    return indices.map(i => data[i].date);
+    this.lineChartData = {
+      labels,
+      datasets: [
+        {
+          data,
+          label: this.activeChart === 'weight' ? 'Weight' : 'Reps',
+          fill: false,
+          borderColor: '#3b82f6',
+          backgroundColor: '#3b82f6',
+          tension: 0.4
+        }
+      ]
+    };
   }
 
   formatDate(date: Date): string {
-    return new Date(date).toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric' 
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
     });
   }
 
   formatShortDate(date: Date): string {
-    return new Date(date).toLocaleDateString('en-US', { 
-      month: 'numeric', 
-      day: 'numeric' 
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric'
     });
-  }
-
-  getDisplayValue(session: any): number {
-    return this.activeChart === 'weight' ? session.weight : session.reps;
   }
 
   calculateOneRM(weight: number, reps: number): number {

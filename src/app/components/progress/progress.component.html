@@ -34,67 +34,24 @@
         <div class="chart-container">
           <h2>{{ selectedExercise }} Progress</h2>
           <div class="chart-tabs">
-            <button 
-              class="chart-tab" 
+            <button
+              class="chart-tab"
               [class.active]="activeChart === 'weight'"
-              (click)="activeChart = 'weight'"
+              (click)="setActiveChart('weight')"
             >
               Weight
             </button>
-            <button 
-              class="chart-tab" 
+            <button
+              class="chart-tab"
               [class.active]="activeChart === 'reps'"
-              (click)="activeChart = 'reps'"
+              (click)="setActiveChart('reps')"
             >
               Reps
             </button>
           </div>
 
           <div class="chart" *ngIf="progressData.data.length > 0">
-            <div class="chart-y-axis">
-              <span *ngFor="let tick of getYAxisTicks()" class="y-tick">{{ tick }}</span>
-            </div>
-            <div class="chart-area">
-              <svg class="chart-svg" viewBox="0 0 400 200">
-                <!-- Grid lines -->
-                <defs>
-                  <pattern id="grid" width="40" height="25" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 25" fill="none" stroke="#f3f4f6" stroke-width="1"/>
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#grid)" />
-
-                <!-- Progress line -->
-                <polyline
-                  [attr.points]="getChartPoints()"
-                  fill="none"
-                  stroke="#3b82f6"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-
-                <!-- Data points -->
-                <circle
-                  *ngFor="let point of getDataPoints(); let i = index"
-                  [attr.cx]="point.x"
-                  [attr.cy]="point.y"
-                  r="5"
-                  fill="#3b82f6"
-                  stroke="white"
-                  stroke-width="2"
-                  class="data-point"
-                  [attr.data-date]="formatDate(progressData.data[i].date)"
-                  [attr.data-value]="getDisplayValue(progressData.data[i])"
-                />
-              </svg>
-              
-              <div class="chart-x-axis">
-                <span *ngFor="let date of getXAxisDates()" class="x-tick">
-                  {{ formatShortDate(date) }}
-                </span>
-              </div>
-            </div>
+            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions"></canvas>
           </div>
 
           <div class="empty-chart" *ngIf="progressData.data.length === 0">
