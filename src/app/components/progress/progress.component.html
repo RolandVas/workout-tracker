@@ -1,0 +1,144 @@
+<div class="progress">
+      <header class="page-header">
+        <h1>Progress Tracking</h1>
+        <div class="exercise-selector">
+          <select [(ngModel)]="selectedExercise" (change)="loadProgressData()">
+            <option value="">Select Exercise</option>
+            <option *ngFor="let exercise of availableExercises" [value]="exercise">
+              {{ exercise }}
+            </option>
+          </select>
+        </div>
+      </header>
+
+      <div class="progress-overview" *ngIf="selectedExercise && progressData">
+        <div class="progress-stats">
+          <div class="stat-card">
+            <div class="stat-value">{{ getMaxWeight() }}kg</div>
+            <div class="stat-label">Max Weight</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ getMaxReps() }}</div>
+            <div class="stat-label">Max Reps</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ getImprovement() }}%</div>
+            <div class="stat-label">Improvement</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ getTotalSessions() }}</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <h2>{{ selectedExercise }} Progress</h2>
+          <div class="chart-tabs">
+            <button 
+              class="chart-tab" 
+              [class.active]="activeChart === 'weight'"
+              (click)="activeChart = 'weight'"
+            >
+              Weight
+            </button>
+            <button 
+              class="chart-tab" 
+              [class.active]="activeChart === 'reps'"
+              (click)="activeChart = 'reps'"
+            >
+              Reps
+            </button>
+          </div>
+
+          <div class="chart" *ngIf="progressData.data.length > 0">
+            <div class="chart-y-axis">
+              <span *ngFor="let tick of getYAxisTicks()" class="y-tick">{{ tick }}</span>
+            </div>
+            <div class="chart-area">
+              <svg class="chart-svg" viewBox="0 0 400 200">
+                <!-- Grid lines -->
+                <defs>
+                  <pattern id="grid" width="40" height="25" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 25" fill="none" stroke="#f3f4f6" stroke-width="1"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+
+                <!-- Progress line -->
+                <polyline
+                  [attr.points]="getChartPoints()"
+                  fill="none"
+                  stroke="#3b82f6"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+
+                <!-- Data points -->
+                <circle
+                  *ngFor="let point of getDataPoints(); let i = index"
+                  [attr.cx]="point.x"
+                  [attr.cy]="point.y"
+                  r="5"
+                  fill="#3b82f6"
+                  stroke="white"
+                  stroke-width="2"
+                  class="data-point"
+                  [attr.data-date]="formatDate(progressData.data[i].date)"
+                  [attr.data-value]="getDisplayValue(progressData.data[i])"
+                />
+              </svg>
+              
+              <div class="chart-x-axis">
+                <span *ngFor="let date of getXAxisDates()" class="x-tick">
+                  {{ formatShortDate(date) }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-chart" *ngIf="progressData.data.length === 0">
+            <p>No data available for this exercise yet.</p>
+          </div>
+        </div>
+
+        <div class="progress-table">
+          <h3>Session Details</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Weight (kg)</th>
+                  <th>Reps</th>
+                  <th>1RM Est.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let session of progressData.data.reverse()">
+                  <td>{{ formatDate(session.date) }}</td>
+                  <td>{{ session.weight }}</td>
+                  <td>{{ session.reps }}</td>
+                  <td>{{ calculateOneRM(session.weight, session.reps) }}kg</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-exercise-selected" *ngIf="!selectedExercise">
+        <h2>Track Your Progress</h2>
+        <p>Select an exercise above to view your progress over time.</p>
+        <div class="exercise-grid">
+          <div 
+            class="exercise-card" 
+            *ngFor="let exercise of availableExercises.slice(0, 6)"
+            (click)="selectExercise(exercise)"
+          >
+            <h4>{{ exercise }}</h4>
+            <p>View progress</p>
+          </div>
+        </div>
+      </div>
+    </div>

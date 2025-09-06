@@ -1,0 +1,263 @@
+.progress {
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      color: #1f2937;
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .exercise-selector select {
+      padding: 0.5rem 1rem;
+      border: 2px solid #d1d5db;
+      border-radius: 0.5rem;
+      background: white;
+      color: #1f2937;
+      font-size: 0.875rem;
+      min-width: 200px;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #3b82f6;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    .chart-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .chart-container h2 {
+      color: #1f2937;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .chart-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-tab {
+      padding: 0.5rem 1rem;
+      border: 2px solid #e5e7eb;
+      background: white;
+      color: #6b7280;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chart-tab.active {
+      border-color: #3b82f6;
+      background: #3b82f6;
+      color: white;
+    }
+
+    .chart {
+      display: flex;
+      gap: 1rem;
+      height: 250px;
+    }
+
+    .chart-y-axis {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px 0;
+      min-width: 50px;
+    }
+
+    .y-tick {
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    .chart-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-svg {
+      flex: 1;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      background: #f9fafb;
+    }
+
+    .data-point {
+      cursor: pointer;
+    }
+
+    .data-point:hover {
+      r: 7;
+      fill: #2563eb;
+    }
+
+    .chart-x-axis {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .x-tick {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .empty-chart {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #6b7280;
+    }
+
+    .progress-table {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-table h3 {
+      color: #1f2937;
+      margin-bottom: 1.5rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    td {
+      color: #6b7280;
+    }
+
+    .no-exercise-selected {
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .no-exercise-selected h2 {
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .no-exercise-selected p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .exercise-card {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .exercise-card:hover {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .exercise-card h4 {
+      color: #1f2937;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .exercise-card p {
+      color: #6b7280;
+      margin: 0;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      .progress {
+        padding: 1rem 0.5rem;
+      }
+
+      .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chart {
+        height: 200px;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+    }
