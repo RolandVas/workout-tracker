@@ -1,0 +1,103 @@
+<div class="log-workout">
+      <header class="page-header">
+        <h1>Log Workout</h1>
+        <div class="workout-timer">
+          <span class="timer-icon">⏱️</span>
+          <span class="time">{{ formatTime(elapsedTime) }}</span>
+        </div>
+      </header>
+
+      <div class="day-selection" *ngIf="!selectedDay">
+        <h2>Select Workout Day</h2>
+        <div class="day-cards">
+          <div 
+            class="day-card" 
+            *ngFor="let day of workoutDays" 
+            (click)="selectDay(day)"
+          >
+            <h3>{{ day.name }}</h3>
+            <p class="day-badge">{{ day.day }}</p>
+            <p class="exercise-count">{{ day.exercises.length }} exercises</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="workout-logging" *ngIf="selectedDay">
+        <div class="workout-header">
+          <h2>{{ selectedDay.name }}</h2>
+          <p class="workout-date">{{ workoutDate | date:'fullDate' }}</p>
+          <button class="change-day-btn" (click)="selectedDay = null">Change Day</button>
+        </div>
+
+        <div class="exercises-log">
+          <div class="exercise-card" *ngFor="let loggedExercise of loggedExercises; let i = index">
+            <div class="exercise-header">
+              <h3>{{ loggedExercise.name }}</h3>
+              <div class="exercise-status">
+                <span class="completed-sets">{{ getCompletedSets(loggedExercise) }}</span>/{{ loggedExercise.sets.length }}
+              </div>
+            </div>
+
+            <div class="sets-table">
+              <div class="table-header">
+                <span>Set</span>
+                <span>Previous</span>
+                <span>Reps</span>
+                <span>Weight (kg)</span>
+                <span>✓</span>
+              </div>
+              
+              <div class="set-row" *ngFor="let set of loggedExercise.sets; let j = index">
+                <span class="set-number">{{ set.setNumber }}</span>
+                <span class="previous-data">{{ getPreviousData(loggedExercise.exerciseId, j) }}</span>
+                <input 
+                  type="number" 
+                  [(ngModel)]="set.reps" 
+                  [name]="'reps'+i+j"
+                  min="1"
+                  class="reps-input"
+                  (change)="updateSet(i, j)"
+                />
+                <input 
+                  type="number" 
+                  [(ngModel)]="set.weight" 
+                  [name]="'weight'+i+j"
+                  min="0"
+                  step="0.5"
+                  class="weight-input"
+                  (change)="updateSet(i, j)"
+                />
+                <input 
+                  type="checkbox" 
+                  [(ngModel)]="set.completed" 
+                  [name]="'completed'+i+j"
+                  class="completed-checkbox"
+                  (change)="updateSet(i, j)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="workout-notes">
+          <label for="notes">Workout Notes (Optional)</label>
+          <textarea 
+            id="notes" 
+            [(ngModel)]="workoutNotes" 
+            placeholder="How did the workout feel? Any observations..."
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="workout-actions">
+          <button class="cancel-btn" (click)="cancelWorkout()">Cancel</button>
+          <button 
+            class="save-btn" 
+            (click)="saveWorkout()"
+            [disabled]="getCompletedExercises() === 0"
+          >
+            Save Workout ({{ getCompletedExercises() }}/{{ loggedExercises.length }} exercises)
+          </button>
+        </div>
+      </div>
+    </div>

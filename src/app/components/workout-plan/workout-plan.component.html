@@ -1,0 +1,83 @@
+<div class="workout-plan">
+      <header class="page-header">
+        <h1>Workout Plan</h1>
+        <button class="create-btn" (click)="showCreateForm = !showCreateForm">
+          {{ showCreateForm ? 'Cancel' : 'Create New Plan' }}
+        </button>
+      </header>
+
+      <div class="create-form" *ngIf="showCreateForm">
+        <h2>Create New Workout Plan</h2>
+        <form (ngSubmit)="createPlan()">
+          <div class="form-group">
+            <label>Plan Name</label>
+            <input type="text" [(ngModel)]="newPlan.name" name="planName" required>
+          </div>
+          
+          <div class="days-section">
+            <h3>Workout Days</h3>
+            <div class="day-form" *ngFor="let day of newPlan.days; let i = index">
+              <div class="day-header">
+                <input type="text" [(ngModel)]="day.name" [name]="'dayName'+i" placeholder="Day name (e.g., Push Day)">
+                <select [(ngModel)]="day.day" [name]="'daySelect'+i">
+                  <option value="">Select Day</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+                <button type="button" class="remove-day-btn" (click)="removeDay(i)">Remove</button>
+              </div>
+              
+              <div class="exercises-section">
+                <h4>Exercises</h4>
+                <div class="exercise-form" *ngFor="let exercise of day.exercises; let j = index">
+                  <input type="text" [(ngModel)]="exercise.name" [name]="'exerciseName'+i+j" placeholder="Exercise name">
+                  <input type="number" [(ngModel)]="exercise.sets" [name]="'sets'+i+j" placeholder="Sets" min="1">
+                  <input type="number" [(ngModel)]="exercise.reps" [name]="'reps'+i+j" placeholder="Reps" min="1">
+                  <input type="number" [(ngModel)]="exercise.weight" [name]="'weight'+i+j" placeholder="Weight (kg)" min="0">
+                  <button type="button" class="remove-exercise-btn" (click)="removeExercise(i, j)">×</button>
+                </div>
+                <button type="button" class="add-exercise-btn" (click)="addExercise(i)">+ Add Exercise</button>
+              </div>
+            </div>
+            <button type="button" class="add-day-btn" (click)="addDay()">+ Add Workout Day</button>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="showCreateForm = false">Cancel</button>
+            <button type="submit" class="save-btn">Create Plan</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="current-plan" *ngIf="currentPlan && !showCreateForm">
+        <h2>{{ currentPlan.name }}</h2>
+        <div class="plan-days">
+          <div class="day-card" *ngFor="let day of currentPlan.days">
+            <div class="day-header-card">
+              <h3>{{ day.name }}</h3>
+              <span class="day-badge">{{ day.day }}</span>
+            </div>
+            <div class="exercises">
+              <div class="exercise" *ngFor="let exercise of day.exercises">
+                <div class="exercise-name">{{ exercise.name }}</div>
+                <div class="exercise-details">
+                  {{ exercise.sets }} sets × {{ exercise.reps }} reps
+                  <span *ngIf="exercise.weight > 0"> &#64; {{ exercise.weight }}kg</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="!currentPlan && !showCreateForm">
+        <h2>No Workout Plan Yet</h2>
+        <p>Create your first workout plan to get started!</p>
+        <button class="create-first-btn" (click)="showCreateForm = true">Create Your First Plan</button>
+      </div>
+    </div>

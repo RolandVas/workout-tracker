@@ -1,0 +1,259 @@
+.workout-plan {
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      color: #1f2937;
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .create-btn, .create-first-btn {
+      padding: 0.75rem 1.5rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .create-btn:hover, .create-first-btn:hover {
+      background: #2563eb;
+    }
+
+    .create-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .create-form h2 {
+      color: #1f2937;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .form-group input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .days-section {
+      margin-top: 2rem;
+    }
+
+    .days-section h3 {
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .day-form {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .day-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .remove-day-btn, .remove-exercise-btn {
+      padding: 0.5rem 1rem;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .exercises-section h4 {
+      color: #374151;
+      margin-bottom: 0.75rem;
+    }
+
+    .exercise-form {
+      display: grid;
+      grid-template-columns: 2fr 0.5fr 0.5fr 0.75fr auto;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+    }
+
+    .add-exercise-btn, .add-day-btn {
+      padding: 0.5rem 1rem;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .add-day-btn {
+      margin-top: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .cancel-btn {
+      padding: 0.75rem 1.5rem;
+      background: #6b7280;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .save-btn {
+      padding: 0.75rem 1.5rem;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .current-plan {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .current-plan h2 {
+      color: #1f2937;
+      margin-bottom: 2rem;
+    }
+
+    .plan-days {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .day-card {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      border: 2px solid #e5e7eb;
+    }
+
+    .day-header-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .day-header-card h3 {
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .day-badge {
+      background: #3b82f6;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .exercise {
+      padding: 0.75rem;
+      background: white;
+      border-radius: 0.5rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .exercise-name {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+
+    .exercise-details {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .empty-state h2 {
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .workout-plan {
+        padding: 1rem 0.5rem;
+      }
+
+      .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .day-header {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .exercise-form {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .plan-days {
+        grid-template-columns: 1fr;
+      }
+    }

@@ -1,0 +1,64 @@
+<div class="dashboard">
+      <header class="dashboard-header">
+        <h1>Welcome back, {{ currentUser?.name }}!</h1>
+        <p class="date">{{ today | date:'EEEE, MMMM d, y' }}</p>
+      </header>
+
+      <div class="quick-stats">
+        <div class="stat-card">
+          <div class="stat-value">{{ recentLogs.length }}</div>
+          <div class="stat-label">Workouts this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ currentPlan?.days?.length || 0 }}</div>
+          <div class="stat-label">Days in plan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ getTotalExercises() }}</div>
+          <div class="stat-label">Total exercises</div>
+        </div>
+      </div>
+
+      <div class="today-workout" *ngIf="todaysWorkout">
+        <h2>Today's Workout: {{ todaysWorkout.name }}</h2>
+        <div class="exercise-list">
+          <div class="exercise-item" *ngFor="let exercise of todaysWorkout.exercises">
+            <span class="exercise-name">{{ exercise.name }}</span>
+            <span class="exercise-details">{{ exercise.sets }}×{{ exercise.reps }} X {{ exercise.weight }}kg</span>
+          </div>
+        </div>
+        <button class="start-workout-btn" (click)="startWorkout()">
+          Start Workout
+        </button>
+      </div>
+
+      <div class="recent-workouts">
+        <h2>Recent Workouts</h2>
+        <div class="workout-history" *ngIf="recentLogs.length > 0">
+          <div class="workout-item" *ngFor="let log of recentLogs.slice(0, 3)">
+            <div class="workout-info">
+              <div class="workout-name">{{ log.dayName }}</div>
+              <div class="workout-date">{{ log.date | date:'MMM d, y' }}</div>
+            </div>
+            <div class="workout-stats">
+              <span>{{ log.exercises.length }} exercises</span>
+              <span>{{ log.duration }}min</span>
+            </div>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="recentLogs.length === 0">
+          <p>No workouts logged yet. Start your fitness journey!</p>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="action-btn primary" (click)="router.navigate(['/log'])">
+          <span class="btn-icon">📝</span>
+          Log Workout
+        </button>
+        <button class="action-btn secondary" (click)="router.navigate(['/plan'])">
+          <span class="btn-icon">📋</span>
+          View Plan
+        </button>
+      </div>
+    </div>
