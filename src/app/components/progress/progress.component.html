@@ -51,7 +51,7 @@
           </div>
 
           <div class="chart" *ngIf="progressData.data.length > 0">
-            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions"></canvas>
+            <canvas baseChart [type]="'line'" [data]="lineChartData" [options]="lineChartOptions"></canvas>
           </div>
 
           <div class="empty-chart" *ngIf="progressData.data.length === 0">

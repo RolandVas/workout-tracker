@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from '../../services/workout.service';
 import { WorkoutPlan, WorkoutDay, LoggedExercise, WorkoutSet } from '../../models/interface';
+import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-log-workout',
@@ -22,6 +23,8 @@ export class LogWorkoutComponent implements OnInit {
   elapsedTime = 0;
   private timerInterval: any;
 
+  private supabaseService: SupabaseService = inject(SupabaseService)
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -31,6 +34,10 @@ export class LogWorkoutComponent implements OnInit {
   ngOnInit(): void {
     this.currentPlan = this.workoutService.getCurrentPlan();
     if (this.currentPlan) {
+      this.supabaseService.getWorkoutDays().subscribe((workoutDays) => {
+        console.log(workoutDays)
+        // this.workoutDays = workoutDays
+      })
       this.workoutDays = this.currentPlan.days;
       
       // Check if a specific day was selected

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { WorkoutService } from '../../services/workout.service';
 import { ProgressData } from '../../models/interface';
 
@@ -18,6 +18,8 @@ export class ProgressComponent implements OnInit {
   selectedExercise = '';
   progressData: ProgressData | null = null;
   activeChart = 'weight';
+
+  lineChartType: ChartType = 'line';
 
   lineChartData: ChartData<'line'> = { labels: [], datasets: [] };
   lineChartOptions: ChartOptions<'line'> = {
