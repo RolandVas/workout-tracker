@@ -34,12 +34,12 @@ export class LogWorkoutComponent implements OnInit {
   ngOnInit(): void {
     this.currentPlan = this.workoutService.getCurrentPlan();
     if (this.currentPlan) {
-      this.supabaseService.getWorkoutDays().subscribe((workoutDays) => {
-        console.log(workoutDays)
-        // this.workoutDays = workoutDays
-      })
+      // this.supabaseService.getWorkoutDays().subscribe((workoutDays) => {
+      //   console.log(workoutDays)
+      //   // this.workoutDays = workoutDays
+      // })
       this.workoutDays = this.currentPlan.days;
-      
+
       // Check if a specific day was selected
       const dayId = this.route.snapshot.queryParams['day'];
       if (dayId) {
@@ -104,7 +104,7 @@ export class LogWorkoutComponent implements OnInit {
   }
 
   getCompletedExercises(): number {
-    return this.loggedExercises.filter(exercise => 
+    return this.loggedExercises.filter(exercise =>
       exercise.sets.some(set => set.completed)
     ).length;
   }
@@ -125,7 +125,7 @@ export class LogWorkoutComponent implements OnInit {
       dayId: this.selectedDay.id,
       dayName: this.selectedDay.name,
       date: this.workoutDate,
-      exercises: this.loggedExercises.filter(exercise => 
+      exercises: this.loggedExercises.filter(exercise =>
         exercise.sets.some(set => set.completed)
       ),
       duration: Math.floor(this.elapsedTime / 60),

@@ -48,7 +48,7 @@ export class WorkoutHistoryComponent implements OnInit {
         filterDate.setFullYear(2020); // Show all
     }
 
-    this.filteredLogs = this.workoutLogs.filter(log => 
+    this.filteredLogs = this.workoutLogs.filter(log =>
       new Date(log.date) >= filterDate
     );
   }
@@ -59,11 +59,6 @@ export class WorkoutHistoryComponent implements OnInit {
     } else {
       this.expandedWorkouts.add(workoutId);
     }
-  }
-
-  getTotalDuration(): number {
-    const totalMinutes = this.filteredLogs.reduce((sum, log) => sum + (log.duration || 0), 0);
-    return Math.round(totalMinutes / 60 * 10) / 10; // Convert to hours, 1 decimal
   }
 
   getUniqueExercises(): number {
@@ -86,10 +81,10 @@ export class WorkoutHistoryComponent implements OnInit {
     const today = new Date();
     const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    
+
     const days = [];
     const workoutDates = new Map();
-    
+
     // Map workout dates
     this.workoutLogs.forEach(log => {
       const dateKey = new Date(log.date).toDateString();
@@ -99,7 +94,7 @@ export class WorkoutHistoryComponent implements OnInit {
     for (let day = 1; day <= endDate.getDate(); day++) {
       const currentDate = new Date(today.getFullYear(), today.getMonth(), day);
       const dateKey = currentDate.toDateString();
-      
+
       days.push({
         date: currentDate,
         hasWorkout: workoutDates.has(dateKey),

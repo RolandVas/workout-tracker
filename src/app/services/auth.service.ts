@@ -29,7 +29,7 @@ export class AuthService implements OnInit {
           name: email.split('@')[0],
           createdAt: new Date()
         };
-        
+
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         observer.next(user);
@@ -47,7 +47,7 @@ export class AuthService implements OnInit {
           name: name,
           createdAt: new Date()
         };
-        
+
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         observer.next(user);

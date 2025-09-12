@@ -32,13 +32,13 @@ export class DashboardComponent implements OnInit {
 
   private loadData(): void {
     this.workoutService.getWorkoutLogs().subscribe(logs => {
-      this.recentLogs = logs.filter(log => 
+      this.recentLogs = logs.filter(log =>
         new Date(log.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       );
     });
 
     this.currentPlan = this.workoutService.getCurrentPlan();
-    
+
     // Get today's workout based on day of week
     if (this.currentPlan) {
       const todayName = this.today.toLocaleDateString('en-US', { weekday: 'long' });
@@ -52,8 +52,8 @@ export class DashboardComponent implements OnInit {
   }
 
   startWorkout(): void {
-    this.router.navigate(['/log'], { 
-      queryParams: { day: this.todaysWorkout?.id } 
+    this.router.navigate(['/log'], {
+      queryParams: { day: this.todaysWorkout?.id }
     });
   }
 }

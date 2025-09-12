@@ -13,9 +13,9 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   currentRoute = '';
-  showNavigation = false;
+  showNavigation = true;
 
   constructor(
     private router: Router,
@@ -35,13 +35,13 @@ export class AppComponent {
     });
 
     // Check authentication status on app init
-    if (!this.authService.isLoggedIn && this.router.url !== '/login') {
-      this.router.navigate(['/login']);
-    }
+    // if (!this.authService.isLoggedIn && this.router.url !== '/login') {
+    //   this.router.navigate(['/login']);
+    // }
   }
 
   private updateNavigationVisibility(url: string): void {
-    this.showNavigation = this.authService.isLoggedIn && url !== '/login';
+    // this.showNavigation = this.authService.isLoggedIn && url !== '/login';
   }
 
   navigate(route: string): void {
