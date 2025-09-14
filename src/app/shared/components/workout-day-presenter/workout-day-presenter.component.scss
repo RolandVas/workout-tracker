@@ -1,0 +1,19 @@
+.day-card {
+    background: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .day-card:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  .day-card h3 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }

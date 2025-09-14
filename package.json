@@ -7,7 +7,6 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:workout-tracker": "node dist/workout-tracker/server/server.mjs",
     "update-types": "npx supabase gen types typescript --project-id mlrweuqxcdfiwzfwkrva > ./src/types/database.types.ts"
   },
   "private": true,
@@ -22,7 +21,6 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/platform-server": "^18.2.0",
     "@angular/router": "^18.2.0",
-    "@angular/ssr": "^18.2.1",
     "@supabase/supabase-js": "^2.57.2",
     "chart.js": "^4.5.0",
     "express": "^4.18.2",

@@ -11,13 +11,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-    private authService: AuthService = inject(AuthService)
+  private authService: AuthService = inject(AuthService)
 
-  currentUser = this.authService.currentUserValue;
+  private router: Router = inject(Router)
 
-  constructor(
-    private router: Router
-  ) {}
+  public currentUser = this.authService.currentUser;
 
   getUserInitials(): string {
     if (!this.currentUser?.name) return 'U';
@@ -27,14 +25,6 @@ export class ProfileComponent {
       .join('')
       .toUpperCase()
       .slice(0, 2);
-  }
-
-  formatDate(date: Date | undefined): string {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long'
-    });
   }
 
   logout(): void {

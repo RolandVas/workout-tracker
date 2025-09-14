@@ -2,9 +2,9 @@
       <header class="profile-header">
         <div class="user-avatar">{{ getUserInitials() }}</div>
         <div class="user-info">
-          <h1>{{ currentUser?.name }}</h1>
-          <p>{{ currentUser?.email }}</p>
-          <p class="member-since">Member since {{ formatDate(currentUser?.createdAt) }}</p>
+          <h1>{{ currentUser()?.name }}</h1>
+          <p>{{ currentUser()?.email }}</p>
+          <p class="member-since">Member since {{ currentUser()?.createdAt | date:'dd.MM.yyyy' }}</p>
         </div>
       </header>
 

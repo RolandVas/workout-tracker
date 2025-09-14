@@ -1,47 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AuthResponse } from '@supabase/supabase-js';
+
+export interface LoginForm {
+  email: FormControl<string>,
+  password: FormControl<string>,
+  name: FormControl<string>
+}
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  isLoginMode = true;
-  isLoading = false;
-  formData = {
-    email: '',
-    password: '',
-    name: ''
-  };
+  private fb = inject(NonNullableFormBuilder)
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  private authService: AuthService = inject(AuthService)
+
+  private router: Router = inject(Router)
+
+  isLoginMode = true;
+  
+  isLoading = false;
+
+  public userLoginForm: FormGroup<LoginForm> = this.fb.group({
+    email: this.fb.control('', [Validators.required, Validators.email]),
+    password: this.fb.control(''),
+    name: this.fb.control(''),
+  })
 
   onSubmit(): void {
     if (this.isLoading) return;
-    
+    const rawUserForm = this.userLoginForm.getRawValue()
     this.isLoading = true;
-    
-    const authObservable = this.isLoginMode
-      ? this.authService.login(this.formData.email, this.formData.password)
-      : this.authService.register(this.formData.email, this.formData.password, this.formData.name);
 
-    authObservable.subscribe({
-      next: () => {
+    const authObservable = this.isLoginMode
+      ? this.authService.login(rawUserForm.email, rawUserForm.password)
+      : this.authService.register(rawUserForm.email, rawUserForm.password, rawUserForm.name);
+
+    authObservable.subscribe(() =>{
         this.router.navigate(['/dashboard']);
         this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      }
     });
   }
 }

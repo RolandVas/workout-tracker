@@ -1,7 +1,7 @@
 <div class="dashboard">
       <header class="dashboard-header">
-        <h1>Welcome back, {{ currentUser?.name }}!</h1>
-        <p class="date">{{ today | date:'EEEE, MMMM d, y' }}</p>
+        <h1>Welcome back, {{ currentUser()?.name }}!</h1>
+        <p class="date">{{ today | date:'EEEE, MMMM d, y':'':'hu' }}</p>
       </header>
 
       <div class="quick-stats">
@@ -17,19 +17,6 @@
           <div class="stat-value">{{ getTotalExercises() }}</div>
           <div class="stat-label">Total exercises</div>
         </div>
-      </div>
-
-      <div class="today-workout" *ngIf="todaysWorkout">
-        <h2>Today's Workout: {{ todaysWorkout.name }}</h2>
-        <div class="exercise-list">
-          <div class="exercise-item" *ngFor="let exercise of todaysWorkout.exercises">
-            <span class="exercise-name">{{ exercise.name }}</span>
-            <span class="exercise-details">{{ exercise.sets }}×{{ exercise.reps }} X {{ exercise.weight }}kg</span>
-          </div>
-        </div>
-        <button class="start-workout-btn" (click)="startWorkout()">
-          Start Workout
-        </button>
       </div>
 
       <div class="recent-workouts">

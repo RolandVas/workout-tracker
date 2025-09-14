@@ -5,11 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from '../../services/workout.service';
 import { WorkoutPlan, WorkoutDay, LoggedExercise, WorkoutSet } from '../../models/interface';
 import { SupabaseService } from '../../services/supabase.service';
+import { WorkoutDayPresenterComponent } from "../../shared/components/workout-day-presenter/workout-day-presenter.component";
 
 @Component({
   selector: 'app-log-workout',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, WorkoutDayPresenterComponent],
   templateUrl: './log-workout.component.html',
   styleUrls: ['./log-workout.component.scss']
 })
@@ -34,10 +35,6 @@ export class LogWorkoutComponent implements OnInit {
   ngOnInit(): void {
     this.currentPlan = this.workoutService.getCurrentPlan();
     if (this.currentPlan) {
-      // this.supabaseService.getWorkoutDays().subscribe((workoutDays) => {
-      //   console.log(workoutDays)
-      //   // this.workoutDays = workoutDays
-      // })
       this.workoutDays = this.currentPlan.days;
 
       // Check if a specific day was selected
@@ -88,6 +85,7 @@ export class LogWorkoutComponent implements OnInit {
         completed: false
       }))
     }));
+    console.log(this.loggedExercises)
   }
 
   updateSet(exerciseIndex: number, setIndex: number): void {
