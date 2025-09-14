@@ -28,6 +28,8 @@ export interface User {
     days: WorkoutDay[];
     createdAt: Date;
   }
+
+  
   
   export interface WorkoutSet {
     setNumber: number;

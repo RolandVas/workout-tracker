@@ -1,7 +1,8 @@
+
 <div class="create-form">
 
   <h2>Create New Workout Plan</h2>
-  <form (ngSubmit)="createPlan()">
+  <!-- <form (ngSubmit)="createPlan()">
     <div class="form-group">
       <label>Plan Name</label>
       <input
@@ -9,9 +10,9 @@
         name="planName"
         required
       >
-    </div>
+    </div> -->
 
-    <div class="days-section">
+    <!-- <div class="days-section">
       <h3>Workout Days</h3>
       @for (day of newPlan().days; let i = $index; track day.name) {
         <div class="day-form">
@@ -81,5 +82,40 @@
       <button type="submit" class="save-btn">Create Plan</button>
     </div>
   </form>
-</div>
+</div> -->
+
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label>Plan Name</label>
+  <input formControlName="name" />
+
+  <div formArrayName="days">
+    @for (day of form.controls.days.controls; let i = $index; track day) {
+      <div [formGroupName]="i">
+        <h3>Day {{ i + 1 }}</h3>
+        <input formControlName="name" placeholder="Day Name" />
+        <input formControlName="day" placeholder="e.g. Monday" />
+
+        <div formArrayName="exercises">
+          @for (ex of day.controls.exercises.controls; let j = $index; track ex) {
+            <div [formGroupName]="j">
+              <input formControlName="name" placeholder="Exercise" />
+              <input type="number" formControlName="sets" placeholder="Sets" />
+              <input type="number" formControlName="reps" placeholder="Reps" />
+              <input type="number" formControlName="weight" placeholder="Weight" />
+              <input type="number" formControlName="restTime" placeholder="Rest Time" />
+              <button type="button" (click)="removeExercise(i, j)">Remove Exercise</button>
+            </div>
+          }
+          <button type="button" (click)="addExercise(i)">+ Add Exercise</button>
+        </div>
+
+        <button type="button" (click)="removeDay(i)">Remove Day</button>
+      </div>
+    }
+  </div>
+
+  <button type="button" (click)="addDay()">+ Add Day</button>
+  <button type="submit">Save Plan</button>
+</form>
 
