@@ -1,0 +1,17 @@
+<div class="day-header-card">
+    <h3>{{ day().name }}</h3>
+    <span class="day-badge">{{ day().day }}</span>
+  </div>
+  <div class="exercises">
+    @for (exercise of day().exercises; track $index) {
+    <div class="exercise">
+      <div class="exercise-name">{{ exercise.name }}</div>
+      <div class="exercise-details">
+        {{ exercise.sets }} sets × {{ exercise.reps }} reps
+        @if (exercise.weight > 0) {
+            <span> x {{ exercise.weight }}kg</span>
+        }
+      </div>
+    </div>
+}
+  </div>

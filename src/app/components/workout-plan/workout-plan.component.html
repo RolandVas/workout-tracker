@@ -58,19 +58,7 @@
         <h2>{{ currentPlan.name }}</h2>
         <div class="plan-days">
           <div class="day-card" *ngFor="let day of currentPlan.days">
-            <div class="day-header-card">
-              <h3>{{ day.name }}</h3>
-              <span class="day-badge">{{ day.day }}</span>
-            </div>
-            <div class="exercises">
-              <div class="exercise" *ngFor="let exercise of day.exercises">
-                <div class="exercise-name">{{ exercise.name }}</div>
-                <div class="exercise-details">
-                  {{ exercise.sets }} sets × {{ exercise.reps }} reps
-                  <span *ngIf="exercise.weight > 0"> &#64; {{ exercise.weight }}kg</span>
-                </div>
-              </div>
-            </div>
+            <app-workout-plan-presenter [day]="day"></app-workout-plan-presenter>
           </div>
         </div>
       </div>

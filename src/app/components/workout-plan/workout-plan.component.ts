@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkoutService } from '../../services/workout.service';
 import { WorkoutPlan, WorkoutDay, Exercise } from '../../models/interface';
+import { WorkoutPlanPresenterComponent } from "./components/workout-plan-presenter/workout-plan-presenter.component";
 
 @Component({
   selector: 'app-workout-plan',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, WorkoutPlanPresenterComponent],
   templateUrl: './workout-plan.component.html',
   styleUrls: ['./workout-plan.component.scss']
 })
