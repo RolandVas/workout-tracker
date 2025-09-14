@@ -1,93 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { inject } from '@angular/core';
 import { WorkoutService } from '../../services/workout.service';
 import { WorkoutPlan, WorkoutDay, Exercise } from '../../models/interface';
 import { WorkoutPlanPresenterComponent } from "./components/workout-plan-presenter/workout-plan-presenter.component";
+import { RouterOutlet, Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-plan',
   standalone: true,
-  imports: [CommonModule, FormsModule, WorkoutPlanPresenterComponent],
+  imports: [CommonModule, FormsModule, WorkoutPlanPresenterComponent, RouterOutlet],
   templateUrl: './workout-plan.component.html',
-  styleUrls: ['./workout-plan.component.scss']
+  styleUrls: ['./workout-plan.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkoutPlanComponent implements OnInit {
-  currentPlan: WorkoutPlan | null = null;
-  showCreateForm = false;
-  newPlan = this.getEmptyPlan();
+export class WorkoutPlanComponent {
+  private readonly workoutService = inject(WorkoutService);
+  private router: Router = inject(Router);
 
-  constructor(private workoutService: WorkoutService) {}
+  protected readonly showCreateForm = signal(false);
+  protected readonly newPlan = signal(this.getEmptyPlan());
+  protected readonly currentPlan = signal<WorkoutPlan | null>(null);
 
-  ngOnInit(): void {
-    this.currentPlan = this.workoutService.getCurrentPlan();
+  constructor() {
+    this.currentPlan.set(this.workoutService.getCurrentPlan());
   }
 
-  private getEmptyPlan(): any {
+  public navigateToCreate(): void {
+    if (!this.showCreateForm()) {
+    this.showCreateForm.set(true);
+    this.newPlan.set(this.getEmptyPlan());
+    this.router.navigate(['/plan/create']);
+    } else {
+      this.showCreateForm.set(false);
+      this.router.navigate(['/plan']);
+    }
+  }
+
+  private getEmptyPlan(): WorkoutPlan {
     return {
       name: '',
       days: [{
         name: '',
         day: '',
         exercises: [{
+          id: Date.now().toString() + Math.random(),
           name: '',
           sets: 3,
           reps: 12,
           weight: 0
         }]
       }]
-    };
+    } as WorkoutPlan;
   }
 
-  addDay(): void {
-    this.newPlan.days.push({
-      name: '',
-      day: '',
-      exercises: [{
-        name: '',
-        sets: 3,
-        reps: 12,
-        weight: 0
-      }]
-    });
+  protected toggleCreateForm(): void {
+    this.showCreateForm.update(v => !v);
   }
 
-  removeDay(index: number): void {
-    this.newPlan.days.splice(index, 1);
+  protected addDay(): void {
   }
 
-  addExercise(dayIndex: number): void {
-    this.newPlan.days[dayIndex].exercises.push({
-      name: '',
-      sets: 3,
-      reps: 12,
-      weight: 0
-    });
+  protected removeDay(index: number): void {
+
   }
 
-  removeExercise(dayIndex: number, exerciseIndex: number): void {
-    this.newPlan.days[dayIndex].exercises.splice(exerciseIndex, 1);
+  protected addExercise(dayIndex: number): void {
+
   }
 
-  createPlan(): void {
-    // Generate IDs for the plan structure
-    const planToCreate = {
-      ...this.newPlan,
-      userId: '1',
-      days: this.newPlan.days.map((day: any) => ({
-        ...day,
-        id: Date.now().toString() + Math.random(),
-        exercises: day.exercises.map((exercise: any) => ({
-          ...exercise,
-          id: Date.now().toString() + Math.random()
-        }))
-      }))
-    };
+  protected removeExercise(dayIndex: number, exerciseIndex: number): void {
 
-    this.workoutService.createWorkoutPlan(planToCreate).subscribe(plan => {
-      this.currentPlan = plan;
-      this.showCreateForm = false;
-      this.newPlan = this.getEmptyPlan();
-    });
+  }
+
+  protected updatePlanField(field: keyof WorkoutPlan, value: unknown): void {
+
+  }
+
+  protected updateDayField(dayIndex: number, field: keyof WorkoutDay, value: unknown): void {
+
+  }
+
+  protected updateExerciseField(dayIndex: number, exerciseIndex: number, field: keyof Exercise, value: unknown): void {
+
+  }
+
+  protected createPlan(): void {
   }
 }

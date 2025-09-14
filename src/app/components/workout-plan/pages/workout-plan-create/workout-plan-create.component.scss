@@ -1,0 +1,103 @@
+.create-form {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  .form-group {
+    margin-bottom: 1.5rem;
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+    }
+  }
+
+  .days-section {
+    margin-bottom: 1.5rem;
+    .day-form {
+      background: #f9f9f9;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      .day-header {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+        input, select {
+          flex: 1 1 0;
+        }
+        .remove-day-btn {
+          background: #ffdddd;
+          border: none;
+          border-radius: 4px;
+          padding: 0.25rem 0.75rem;
+          cursor: pointer;
+        }
+      }
+      .exercises-section {
+        .exercise-form {
+          display: flex;
+          gap: 0.5rem;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          input {
+            flex: 1 1 0;
+          }
+          .remove-exercise-btn {
+            background: #ffeaea;
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.75rem;
+            cursor: pointer;
+          }
+        }
+        .add-exercise-btn {
+          margin-top: 0.5rem;
+          background: #e0f7fa;
+          border: none;
+          border-radius: 4px;
+          padding: 0.25rem 0.75rem;
+          cursor: pointer;
+        }
+      }
+    }
+    .add-day-btn {
+      background: #e0f7fa;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    .cancel-btn {
+      background: #eee;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+    .save-btn {
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+  }
+}

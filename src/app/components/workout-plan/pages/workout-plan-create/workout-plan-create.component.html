@@ -1,0 +1,85 @@
+<div class="create-form">
+
+  <h2>Create New Workout Plan</h2>
+  <form (ngSubmit)="createPlan()">
+    <div class="form-group">
+      <label>Plan Name</label>
+      <input
+        type="text"
+        name="planName"
+        required
+      >
+    </div>
+
+    <div class="days-section">
+      <h3>Workout Days</h3>
+      @for (day of newPlan().days; let i = $index; track day.name) {
+        <div class="day-form">
+          <div class="day-header">
+            <input
+              type="text"
+              [name]="'dayName'+i"
+              placeholder="Day name (e.g., Push Day)"
+            >
+            <select
+              [value]="day.day"
+              (change)="updateDayField(i, 'day', $any($event.target).value)"
+              [name]="'daySelect'+i"
+            >
+              <option value="">Select Day</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+            <button type="button" class="remove-day-btn" (click)="removeDay(i)">Remove</button>
+          </div>
+
+          <div class="exercises-section">
+            <h4>Exercises</h4>
+            @for (exercise of day.exercises; let j = $index; track exercise.name) {
+              <div class="exercise-form">
+                <input
+                  type="text"
+
+                  [name]="'exerciseName'+i+j"
+                  placeholder="Exercise name"
+                >
+                <input
+                  type="number"
+                  [name]="'sets'+i+j"
+                  placeholder="Sets"
+                  min="1"
+                >
+                <input
+                  type="number"
+                  [name]="'reps'+i+j"
+                  placeholder="Reps"
+                  min="1"
+                >
+                <input
+                  type="number"
+                  [name]="'weight'+i+j"
+                  placeholder="Weight (kg)"
+                  min="0"
+                >
+                <button type="button" class="remove-exercise-btn" (click)="removeExercise(i, j)">×</button>
+              </div>
+            }
+            <button type="button" class="add-exercise-btn" (click)="addExercise(i)">+ Add Exercise</button>
+          </div>
+        </div>
+      }
+      <button type="button" class="add-day-btn" (click)="addDay()">+ Add Workout Day</button>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" (click)="cancelCreate()">Cancel</button>
+      <button type="submit" class="save-btn">Create Plan</button>
+    </div>
+  </form>
+</div>
+

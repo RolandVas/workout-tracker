@@ -6,12 +6,19 @@ import { LogWorkoutComponent } from './components/log-workout/log-workout.compon
 import { WorkoutHistoryComponent } from './components/workout-history/workout-history.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { WorkoutPlanCreateComponent } from './components/workout-plan/pages/workout-plan-create/workout-plan-create.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'plan', component: WorkoutPlanComponent },
+  {
+    path: 'plan',
+    component: WorkoutPlanComponent,
+    children: [
+      { path: 'create', component: WorkoutPlanCreateComponent }
+    ]
+  },
   { path: 'log', component: LogWorkoutComponent },
   { path: 'history', component: WorkoutHistoryComponent },
   { path: 'progress', component: ProgressComponent },
