@@ -14,27 +14,91 @@ export type Database = {
   }
   public: {
     Tables: {
-      workout_days: {
+      exercises: {
         Row: {
-          created_at: string
-          day: string
-          exercises: string[]
-          id: number
+          id: string
           name: string
+          reps: number
+          rest_time: number | null
+          sets: number
+          weight: number
+          workout_day_id: string
         }
         Insert: {
-          created_at?: string
-          day: string
-          exercises: string[]
-          id?: number
+          id?: string
           name: string
+          reps: number
+          rest_time?: number | null
+          sets: number
+          weight: number
+          workout_day_id: string
         }
         Update: {
-          created_at?: string
-          day?: string
-          exercises?: string[]
-          id?: number
+          id?: string
           name?: string
+          reps?: number
+          rest_time?: number | null
+          sets?: number
+          weight?: number
+          workout_day_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercises_workout_day_id_fkey"
+            columns: ["workout_day_id"]
+            isOneToOne: false
+            referencedRelation: "workout_days"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workout_days: {
+        Row: {
+          day: string
+          id: string
+          name: string
+          workout_plan_id: string
+        }
+        Insert: {
+          day: string
+          id?: string
+          name: string
+          workout_plan_id: string
+        }
+        Update: {
+          day?: string
+          id?: string
+          name?: string
+          workout_plan_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workout_days_workout_plan_id_fkey"
+            columns: ["workout_plan_id"]
+            isOneToOne: false
+            referencedRelation: "workout_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workout_plans: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          user_id?: string
         }
         Relationships: []
       }

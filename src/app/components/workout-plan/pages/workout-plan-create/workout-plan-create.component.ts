@@ -4,6 +4,7 @@ import { WorkoutService } from '../../../../services/workout.service';
 import { Exercise, WorkoutDay, WorkoutPlan } from '../../../../models/interface';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WorkoutPlanFormGroup, WorkoutPlanFormService } from '../../services/workout-plan-form.service';
+import { SupabaseService } from '../../../../services/supabase.service';
 
 @Component({
   selector: 'app-workout-plan-create',
@@ -15,6 +16,8 @@ import { WorkoutPlanFormGroup, WorkoutPlanFormService } from '../../services/wor
 })
 export class WorkoutPlanCreateComponent {
   private readonly formService = inject(WorkoutPlanFormService);
+
+  private readonly supabaseService = inject(SupabaseService);
 
   form: WorkoutPlanFormGroup;
 
@@ -53,7 +56,16 @@ export class WorkoutPlanCreateComponent {
   submit() {
     console.log(this.form.value);
     if (this.form.valid) {
-      
+      this.supabaseService.saveWorkoutPlan(this.form.value as WorkoutPlan).subscribe({
+        next: (res) => {
+          console.log('Workout Plan saved successfully', res);
+          // Optionally reset the form or provide user feedback here
+        },
+        error: (err) => {
+          console.error('Error saving Workout Plan', err);
+          // Optionally provide user feedback here
+        }
+      });
       // → entspricht WorkoutPlan
     }
   }

@@ -53,9 +53,9 @@ export class AppComponent implements OnInit {
     });
 
     // Check authentication status on app init
-    // if (!this.authService.isLoggedIn && this.router.url !== '/login') {
-    //   this.router.navigate(['/login']);
-    // }
+    if (!this.authService.isLoggedIn && this.router.url !== '/login') {
+      this.router.navigate(['/login']);
+    }
   }
 
   formatDate(date: Date | undefined): string {
