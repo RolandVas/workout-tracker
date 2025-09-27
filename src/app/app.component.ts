@@ -6,6 +6,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { AuthService } from './services/auth.service';
 import { SupabaseService } from './services/supabase.service';
+import { UserService } from './services/user.service'
 
 @Component({
   selector: 'app-root',
@@ -18,29 +19,29 @@ export class AppComponent implements OnInit {
   currentRoute = '';
   showNavigation = true;
 
-  private supabaseService: SupabaseService = inject(SupabaseService)
+  private readonly supabaseService: SupabaseService = inject(SupabaseService)
+
+  private readonly userService: UserService = inject(UserService)
 
   constructor(
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) {
+    this.supabaseService.supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        this.userService.currentUser.set({
+          email: session?.user.email!,
+          createdAt: session?.user.created_at!,
+          id: session?.user.id!,
+          name: session?.user.identities?.at(0)?.identity_data?.['name'],
+        })
+      } else if (event === 'SIGNED_OUT') {
+        this.userService.currentUser.set(null)
+      }
+    })
+  }
 
   ngOnInit(): void {
-      this.supabaseService.supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN') {
-          this.authService.currentUser.set({
-            email: session?.user.email!,
-            createdAt: session?.user.created_at!,
-            id: session?.user.id!,
-            name: session?.user.identities?.at(0)?.identity_data?.['name'],
-        })
-        } else if (event === 'SIGNED_OUT') {
-          this.authService.currentUser.set(null)
-        }
-      })
-
-
-
     // Check initial route
     this.updateNavigationVisibility(this.router.url);
 
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
     });
 
     // Check authentication status on app init
-    if (!this.authService.isLoggedIn && this.router.url !== '/login') {
+    if (this.authService.isLoggedIn && this.router.url !== '/login') {
       this.router.navigate(['/login']);
     }
   }

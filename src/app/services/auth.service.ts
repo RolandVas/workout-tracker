@@ -3,14 +3,15 @@ import { AuthResponse } from '@supabase/supabase-js';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { User } from '../models/interface';
 import { SupabaseService } from './supabase.service';
+import { UserService } from './user.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private supabaseService = inject(SupabaseService)
+  private readonly userService: UserService = inject(UserService)
 
-  public currentUser = signal<User | null>(null)
+  private supabaseService = inject(SupabaseService)
 
   login(email: string, password: string): Observable<AuthResponse> {
     const promis = this.supabaseService.supabase.auth.signInWithPassword({
@@ -38,6 +39,6 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    return !!this.currentUser();
+    return !!this.userService.currentUser();
   }
 }

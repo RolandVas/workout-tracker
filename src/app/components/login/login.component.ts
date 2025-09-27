@@ -11,6 +11,12 @@ export interface LoginForm {
   name: FormControl<string>
 }
 
+type LoginForm2 = FormGroup<{
+  email: FormControl<string>,
+  password: FormControl<string>,
+  name: FormControl<string>
+}>
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -26,10 +32,10 @@ export class LoginComponent {
   private router: Router = inject(Router)
 
   isLoginMode = true;
-  
+
   isLoading = false;
 
-  public userLoginForm: FormGroup<LoginForm> = this.fb.group({
+  public userLoginForm: LoginForm2 = this.fb.group({
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control(''),
     name: this.fb.control(''),

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service'
 
 @Component({
   selector: 'app-profile',
@@ -13,9 +14,11 @@ import { AuthService } from '../../services/auth.service';
 export class ProfileComponent {
   private authService: AuthService = inject(AuthService)
 
+  private readonly userService: UserService = inject(UserService)
+
   private router: Router = inject(Router)
 
-  public currentUser = this.authService.currentUser;
+  public currentUser = this.userService.currentUser;
 
   getUserInitials(): string {
     if (!this.currentUser?.name) return 'U';

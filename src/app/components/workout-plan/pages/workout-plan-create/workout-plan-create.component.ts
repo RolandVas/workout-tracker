@@ -19,19 +19,7 @@ export class WorkoutPlanCreateComponent {
 
   private readonly supabaseService = inject(SupabaseService);
 
-  form: WorkoutPlanFormGroup;
-
-  constructor() {
-    this.form = this.formService.createWorkoutPlanForm();
-  }
-
-//   getDayExercises(day: ): FormArray {
-//   return (day.get('exercises') as FormArray);
-// }
-
-  // get days(): FormArray {
-  //   return this.form.get('days') as FormArray;
-  // }
+  form: WorkoutPlanFormGroup = this.formService.workoutPlanForm;
 
   addDay() {
     this.form.controls.days.push(this.formService.createWorkoutDayForm());
@@ -58,11 +46,9 @@ export class WorkoutPlanCreateComponent {
     if (this.form.valid) {
       this.supabaseService.saveWorkoutPlan(this.form.value as WorkoutPlan).subscribe({
         next: (res) => {
-          console.log('Workout Plan saved successfully', res);
           // Optionally reset the form or provide user feedback here
         },
         error: (err) => {
-          console.error('Error saving Workout Plan', err);
           // Optionally provide user feedback here
         }
       });

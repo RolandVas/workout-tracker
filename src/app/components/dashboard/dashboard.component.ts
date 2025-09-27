@@ -5,6 +5,7 @@ import { WorkoutService } from '../../services/workout.service';
 import { AuthService } from '../../services/auth.service';
 import { WorkoutLog, WorkoutPlan } from '../../models/interface';
 import { LogWorkoutComponent } from "../log-workout/log-workout.component";
+import { UserService } from '../../services/user.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -14,9 +15,9 @@ import { LogWorkoutComponent } from "../log-workout/log-workout.component";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  private authService: AuthService = inject(AuthService)
+  private readonly userService: UserService = inject(UserService)
 
-  currentUser = this.authService.currentUser;
+  currentUser = this.userService.currentUser;
   currentPlan: WorkoutPlan | null = null;
   recentLogs: WorkoutLog[] = [];
   todaysWorkout: any = null;
