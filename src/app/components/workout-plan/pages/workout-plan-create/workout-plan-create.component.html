@@ -1,121 +1,67 @@
-
 <div class="create-form">
-
   <h2>Create New Workout Plan</h2>
-  <!-- <form (ngSubmit)="createPlan()">
-    <div class="form-group">
-      <label>Plan Name</label>
-      <input
-        type="text"
-        name="planName"
-        required
-      >
-    </div> -->
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>Plan Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
 
-    <!-- <div class="days-section">
+    <div formArrayName="days" class="days-section">
       <h3>Workout Days</h3>
-      @for (day of newPlan().days; let i = $index; track day.name) {
-        <div class="day-form">
+
+      @for (day of form.controls.days.controls; let i = $index; track day) {
+      <div class="day-form">
+        <div [formGroupName]="i">
+          <h3>Day {{ i + 1 }}</h3>
           <div class="day-header">
-            <input
-              type="text"
-              [name]="'dayName'+i"
-              placeholder="Day name (e.g., Push Day)"
-            >
-            <select
-              [value]="day.day"
-              (change)="updateDayField(i, 'day', $any($event.target).value)"
-              [name]="'daySelect'+i"
-            >
-              <option value="">Select Day</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
-            </select>
-            <button type="button" class="remove-day-btn" (click)="removeDay(i)">Remove</button>
+            <mat-form-field>
+              <mat-label>Day Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>e.g. Monday</mat-label>
+              <input matInput formControlName="day">
+            </mat-form-field>
+            <button type="button" (click)="removeDay(i)" class="remove-day-btn">Remove Day</button>
           </div>
 
-          <div class="exercises-section">
+          <div formArrayName="exercises" class="exercises-section">
             <h4>Exercises</h4>
-            @for (exercise of day.exercises; let j = $index; track exercise.name) {
-              <div class="exercise-form">
-                <input
-                  type="text"
-
-                  [name]="'exerciseName'+i+j"
-                  placeholder="Exercise name"
-                >
-                <input
-                  type="number"
-                  [name]="'sets'+i+j"
-                  placeholder="Sets"
-                  min="1"
-                >
-                <input
-                  type="number"
-                  [name]="'reps'+i+j"
-                  placeholder="Reps"
-                  min="1"
-                >
-                <input
-                  type="number"
-                  [name]="'weight'+i+j"
-                  placeholder="Weight (kg)"
-                  min="0"
-                >
-                <button type="button" class="remove-exercise-btn" (click)="removeExercise(i, j)">×</button>
-              </div>
+            @for (ex of day.controls.exercises.controls; let j = $index; track ex) {
+            <div [formGroupName]="j" class="exercise-form">
+              <mat-form-field>
+                <mat-label>Exercise</mat-label>
+                <input matInput formControlName="name">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Sets</mat-label>
+                <input matInput type="number" formControlName="sets">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Reps</mat-label>
+                <input matInput type="number" formControlName="reps">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Weight</mat-label>
+                <input matInput type="number" formControlName="weight">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Rest Time</mat-label>
+                <input matInput type="number" formControlName="restTime">
+              </mat-form-field>
+              <button type="button" class="remove-exercise-btn" (click)="removeExercise(i, j)">X</button>
+            </div>
             }
             <button type="button" class="add-exercise-btn" (click)="addExercise(i)">+ Add Exercise</button>
           </div>
         </div>
+      </div>
       }
-      <button type="button" class="add-day-btn" (click)="addDay()">+ Add Workout Day</button>
+      <button type="button" class="add-day-btn" (click)="addDay()">+ Add Day</button>
     </div>
 
     <div class="form-actions">
-      <button type="button" class="cancel-btn" (click)="cancelCreate()">Cancel</button>
-      <button type="submit" class="save-btn">Create Plan</button>
+      <button type="submit" class="save-btn">Save Plan</button>
     </div>
   </form>
-</div> -->
-
-
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <label>Plan Name</label>
-  <input formControlName="name" />
-
-  <div formArrayName="days">
-    @for (day of form.controls.days.controls; let i = $index; track day) {
-      <div [formGroupName]="i">
-        <h3>Day {{ i + 1 }}</h3>
-        <input formControlName="name" placeholder="Day Name" />
-        <input formControlName="day" placeholder="e.g. Monday" />
-
-        <div formArrayName="exercises">
-          @for (ex of day.controls.exercises.controls; let j = $index; track ex) {
-            <div [formGroupName]="j">
-              <input formControlName="name" placeholder="Exercise" />
-              <input type="number" formControlName="sets" placeholder="Sets" />
-              <input type="number" formControlName="reps" placeholder="Reps" />
-              <input type="number" formControlName="weight" placeholder="Weight" />
-              <input type="number" formControlName="restTime" placeholder="Rest Time" />
-              <button type="button" (click)="removeExercise(i, j)">Remove Exercise</button>
-            </div>
-          }
-          <button type="button" (click)="addExercise(i)">+ Add Exercise</button>
-        </div>
-
-        <button type="button" (click)="removeDay(i)">Remove Day</button>
-      </div>
-    }
-  </div>
-
-  <button type="button" (click)="addDay()">+ Add Day</button>
-  <button type="submit">Save Plan</button>
-</form>
-
+</div>

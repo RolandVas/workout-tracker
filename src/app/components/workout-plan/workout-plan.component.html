@@ -7,16 +7,21 @@
   </header>
 
   @if (currentPlan() && !showCreateForm()) {
+    @for (workoutPlan of workoutPlans(); track $index) {
     <div class="current-plan">
-      <h2>{{ currentPlan()?.name }}</h2>
+      <div class="flex items-center justify-between mb-4">
+      <h2>{{ workoutPlan.name }}</h2>
+      <button class="create-btn" (click)="navigateToSelectedPlan(workoutPlan.id)">Edit</button>
+      </div>
       <div class="plan-days">
-        @for (day of currentPlan()?.days; track day.name) {
+        @for (day of workoutPlan.days; track day.name) {
           <div class="day-card">
             <app-workout-plan-presenter [day]="day"></app-workout-plan-presenter>
           </div>
         }
       </div>
     </div>
+    }
   }
 
   @if (!currentPlan() && !showCreateForm()) {

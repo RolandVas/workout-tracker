@@ -16,6 +16,7 @@ export const routes: Routes = [
     path: 'plan',
     component: WorkoutPlanComponent,
     children: [
+      { path: ':id', component: WorkoutPlanCreateComponent },
       { path: 'create', component: WorkoutPlanCreateComponent }
     ]
   },

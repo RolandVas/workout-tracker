@@ -1,20 +1,39 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import { inject } from '@angular/core';
 import { WorkoutService } from '../../../../services/workout.service';
 import { Exercise, WorkoutDay, WorkoutPlan } from '../../../../models/interface';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WorkoutPlanFormGroup, WorkoutPlanFormService } from '../../services/workout-plan-form.service';
 import { SupabaseService } from '../../../../services/supabase.service';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-plan-create',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './workout-plan-create.component.html',
   styleUrl: './workout-plan-create.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkoutPlanCreateComponent {
+export class WorkoutPlanCreateComponent implements OnInit {
+  router = inject(Router);
+
+  ngOnInit(): void {
+    // get the plan id from the route and load the plan if editing
+    const urlSegments = this.router.url.split('/');
+    const planId = urlSegments.length > 2 ? urlSegments[2] : null;
+    if (planId) {
+      this.supabaseService.getWorkoutPlanById(planId).subscribe(plan => {
+        console.log('Loaded plan for editing:', plan);
+        if (plan) {
+          this.form.patchValue(plan)
+        }
+      });
+    }
+  }
   private readonly formService = inject(WorkoutPlanFormService);
 
   private readonly supabaseService = inject(SupabaseService);

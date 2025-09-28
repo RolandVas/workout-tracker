@@ -57,4 +57,8 @@ export class WorkoutPlanFormService {
             restTime: this.fb.control(0),
         });
     }
+
+    setFormFromPlan(plan: any): void {
+      this.workoutPlanForm.patchValue(plan);
+    }
 }
